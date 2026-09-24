@@ -1,0 +1,45 @@
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#1f2937}
+.login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-card,.card{background:#fff;border-radius:14px;box-shadow:0 4px 18px rgba(0,0,0,.08);padding:24px}
+.login-card{width:420px}
+h1,h2{margin-top:0}
+.muted,.hint{color:#6b7280}
+.hint{font-size:13px}
+.topbar{background:#111827;color:#fff;padding:16px 5%;display:flex;justify-content:space-between;align-items:center}
+.topbar h2{margin:0}
+.logout{color:#fff;text-decoration:none}
+.container{max-width:1200px;margin:25px auto;padding:0 18px}
+.card{margin-bottom:22px}
+.tabs{display:flex;gap:8px;margin:20px 0}
+.tab{flex:1;padding:11px;border:1px solid #ddd;background:#eee;border-radius:8px;cursor:pointer}
+.tab.active{background:#111827;color:white}
+.login-form{display:flex;flex-direction:column;gap:8px}
+.hidden{display:none}
+label{font-weight:600;font-size:14px;margin-top:5px}
+input,select{width:100%;padding:11px;border:1px solid #d1d5db;border-radius:8px;font-size:15px}
+button{border:0;border-radius:8px;padding:11px 16px;cursor:pointer}
+.primary{background:#2563eb;color:#fff}
+.danger-button,.danger{background:#dc2626;color:#fff}
+.btn{display:inline-block;padding:8px 11px;border-radius:7px;text-decoration:none;border:0;cursor:pointer;font-size:13px}
+.view{background:#e5e7eb;color:#111827}
+.grid-form{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.full{grid-column:1/-1}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px;border-bottom:1px solid #e5e7eb;text-align:left;white-space:nowrap}
+th{background:#f9fafb}
+.actions{display:flex;gap:7px;align-items:center}
+.alert{padding:12px;border-radius:8px;margin-bottom:15px}
+.success{background:#dcfce7;color:#166534}
+.error{background:#fee2e2;color:#991b1b}
+.balance-card{background:#111827;color:#fff;border-radius:14px;padding:25px;margin-bottom:22px}
+.balance-card h1{font-size:38px;margin:8px 0}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.section-title{display:flex;justify-content:space-between;align-items:center}
+form button{margin-top:10px}
+@media(max-width:700px){
+    .grid-form,.two-col{grid-template-columns:1fr}
+    .full{grid-column:auto}
+    .login-card{width:100%}
+}
