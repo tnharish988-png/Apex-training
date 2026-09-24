@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Details</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+    <h2>Account Details</h2>
+    <a href="/admin" class="logout">Back</a>
+</header>
+
+<main class="container">
+<section class="card">
+    <h2>{{ account.account_no }}</h2>
+    {% if request.query_params.get('error') %}
+        <div class="alert error">{{ request.query_params.get('error') }}</div>
+    {% endif %}
+
+    <form method="post" action="/admin/account/update/{{ account.account_no }}" class="grid-form">
+        <div>
+            <label>Account Holder</label>
+            <input name="account_holder" value="{{ account.account_holder }}" required>
+        </div>
+        <div>
+            <label>Phone</label>
+            <input name="phone" value="{{ account.phone or '' }}">
+        </div>
+        <div>
+            <label>Email</label>
+            <input type="email" name="email" value="{{ account.email or '' }}">
+        </div>
+        <div>
+            <label>New 4-Digit PIN (optional)</label>
+            <input type="password" name="pin" maxlength="4" inputmode="numeric">
+        </div>
+        <div>
+            <label>Current Balance</label>
+            <input value="₹{{ '%.2f'|format(account.balance) }}" disabled>
+        </div>
+        <div class="full">
+            <button class="primary" type="submit">Update Account</button>
+        </div>
+    </form>
+</section>
+
+<section class="card">
+    <h2>Transaction History</h2>
+    <div class="table-wrap">
+    <table>
+        <tr><th>Type</th><th>Amount</th><th>Balance After</th><th>Date</th></tr>
+        {% for t in transactions %}
+        <tr>
+            <td>{{ t.transaction_type }}</td>
+            <td>₹{{ "%.2f"|format(t.amount) }}</td>
+            <td>₹{{ "%.2f"|format(t.balance_after) }}</td>
+            <td>{{ t.created_at }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4">No transactions.</td></tr>
+        {% endfor %}
+    </table>
+    </div>
+</section>
+</main>
+</body>
+</html>

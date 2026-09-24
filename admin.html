@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+    <h2>Admin Dashboard</h2>
+    <a href="/logout" class="logout">Logout</a>
+</header>
+
+<main class="container">
+    {% if request.query_params.get('message') %}
+        <div class="alert success">{{ request.query_params.get('message') }}</div>
+    {% endif %}
+    {% if request.query_params.get('error') %}
+        <div class="alert error">{{ request.query_params.get('error') }}</div>
+    {% endif %}
+
+    <section class="card">
+        <h2>Create Account</h2>
+        <form method="post" action="/admin/account/create" class="grid-form" onsubmit="return validateCreate()">
+            <div>
+                <label>Account Holder</label>
+                <input name="account_holder" required>
+            </div>
+            <div>
+                <label>Phone</label>
+                <input name="phone">
+            </div>
+            <div>
+                <label>Email</label>
+                <input type="email" name="email">
+            </div>
+            <div>
+                <label>4-Digit PIN</label>
+                <input id="create-pin" type="password" name="pin" maxlength="4" inputmode="numeric" required>
+            </div>
+            <div>
+                <label>Opening Balance</label>
+                <input type="number" name="opening_balance" min="0" step="0.01" value="0">
+            </div>
+            <div class="full">
+                <button class="primary" type="submit">Create Account</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="card">
+        <h2>Account Details</h2>
+        <div class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>Account No</th>
+                <th>Holder</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Balance</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for a in accounts %}
+            <tr>
+                <td>{{ a.account_no }}</td>
+                <td>{{ a.account_holder }}</td>
+                <td>{{ a.phone or '-' }}</td>
+                <td>{{ a.email or '-' }}</td>
+                <td>₹{{ "%.2f"|format(a.balance) }}</td>
+                <td class="actions">
+                    <a class="btn view" href="/admin/account/{{ a.account_no }}">View / Update</a>
+                    <form method="post" action="/admin/account/delete/{{ a.account_no }}"
+                          onsubmit="return confirm('Delete this account permanently?')">
+                        <button class="btn danger" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6">No accounts found.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </section>
+</main>
+<script src="/static/app.js"></script>
+</body>
+</html>

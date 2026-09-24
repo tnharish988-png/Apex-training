@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+    <h2>Customer Dashboard</h2>
+    <a href="/logout" class="logout">Logout</a>
+</header>
+
+<main class="container">
+    {% if request.query_params.get('message') %}
+        <div class="alert success">{{ request.query_params.get('message') }}</div>
+    {% endif %}
+    {% if request.query_params.get('error') %}
+        <div class="alert error">{{ request.query_params.get('error') }}</div>
+    {% endif %}
+
+    <section class="balance-card">
+        <p>Welcome, {{ account.account_holder }}</p>
+        <h1>₹{{ "%.2f"|format(account.balance) }}</h1>
+        <p>Available Balance</p>
+        <p>Account: {{ account.account_no }}</p>
+    </section>
+
+    <div class="two-col">
+        <section class="card">
+            <h2>Deposit</h2>
+            <form method="post" action="/customer/deposit" onsubmit="return validateAmount('deposit-amount')">
+                <label>Amount</label>
+                <input id="deposit-amount" type="number" name="amount" min="0.01" step="0.01" required>
+                <button class="primary" type="submit">Deposit</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Withdraw</h2>
+            <form method="post" action="/customer/withdraw" onsubmit="return validateAmount('withdraw-amount')">
+                <label>Amount</label>
+                <input id="withdraw-amount" type="number" name="amount" min="0.01" step="0.01" required>
+                <button class="danger-button" type="submit">Withdraw</button>
+            </form>
+        </section>
+    </div>
+
+    <section class="card">
+        <div class="section-title">
+            <h2>Recent Transactions</h2>
+            <a href="/customer/transactions" class="btn view">View All</a>
+        </div>
+        <div class="table-wrap">
+        <table>
+            <tr><th>Type</th><th>Amount</th><th>Balance After</th><th>Date</th></tr>
+            {% for t in transactions %}
+            <tr>
+                <td>{{ t.transaction_type }}</td>
+                <td>₹{{ "%.2f"|format(t.amount) }}</td>
+                <td>₹{{ "%.2f"|format(t.balance_after) }}</td>
+                <td>{{ t.created_at }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4">No transactions.</td></tr>
+            {% endfor %}
+        </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

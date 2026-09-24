@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+    <h2>Transaction History</h2>
+    <a href="/customer" class="logout">Back</a>
+</header>
+
+<main class="container">
+<section class="card">
+    <h2>{{ account.account_holder }} — {{ account.account_no }}</h2>
+    <div class="table-wrap">
+    <table>
+        <tr><th>Type</th><th>Amount</th><th>Balance After</th><th>Date</th></tr>
+        {% for t in transactions %}
+        <tr>
+            <td>{{ t.transaction_type }}</td>
+            <td>₹{{ "%.2f"|format(t.amount) }}</td>
+            <td>₹{{ "%.2f"|format(t.balance_after) }}</td>
+            <td>{{ t.created_at }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4">No transactions.</td></tr>
+        {% endfor %}
+    </table>
+    </div>
+</section>
+</main>
+</body>
+</html>

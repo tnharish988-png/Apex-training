@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Login</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="login-page">
+<div class="login-card">
+    <h1>Bank Management System</h1>
+    <p class="muted">Select login type</p>
+
+    {% if error %}
+        <div class="alert error">{{ error }}</div>
+    {% endif %}
+
+    <div class="tabs">
+        <button type="button" class="tab active" onclick="showLogin('admin', this)">Admin</button>
+        <button type="button" class="tab" onclick="showLogin('customer', this)">Customer</button>
+    </div>
+
+    <form method="post" action="/login" id="admin-login" class="login-form">
+        <input type="hidden" name="role" value="admin">
+        <label>Username</label>
+        <input type="text" name="username" required>
+
+        <label>Password</label>
+        <input type="password" name="password" required>
+
+        <button class="primary" type="submit">Admin Login</button>
+        <p class="hint">Demo: admin / admin123</p>
+    </form>
+
+    <form method="post" action="/login" id="customer-login" class="login-form hidden">
+        <input type="hidden" name="role" value="customer">
+        <label>Account Number</label>
+        <input type="text" name="account_no" placeholder="Example: AC12AB34CD" required>
+
+        <label>4-Digit PIN</label>
+        <input type="password" name="pin" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" required>
+
+        <button class="primary" type="submit">Customer Login</button>
+    </form>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>
